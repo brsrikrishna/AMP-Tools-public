@@ -10,7 +10,9 @@ class MyBugAlgorithm : public amp::BugAlgorithm {
         virtual amp::Path2D plan(const amp::Problem2D& problem) override;
 
         // Add any other methods here...
-    
+        bool inCollision(Eigen::Vector2d position);
+
     private:
         // Add any member variables here...
+        std::vector<amp::Obstacle2D> obs;
 };
