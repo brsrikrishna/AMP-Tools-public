@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 
     Visualizer::showFigures();
 
-/*
+
     // Create the collision space constructor
     std::size_t n_cells = 5;
     MyManipulatorCSConstructor cspace_constructor(n_cells);
@@ -129,9 +129,9 @@ int main(int argc, char** argv) {
     // You can visualize your cspace 
     Visualizer::makeFigure(*cspace);
 
-    Visualizer::showFigures();*/
+    Visualizer::showFigures();
 
     // Grade method
-    //amp::HW4::grade<MyManipulator2D>(cspace_constructor, "srba2850@colorado.edu", argc, argv);
+    amp::HW4::grade<MyManipulator2D>(cspace_constructor, "srba2850@colorado.edu", argc, argv);
     return 0;
 }

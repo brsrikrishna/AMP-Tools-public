@@ -9,8 +9,9 @@ MyManipulator2D::MyManipulator2D()
 Eigen::Vector2d MyManipulator2D::getJointLocation(const amp::ManipulatorState& state, uint32_t joint_index) const {
     
     int no_of_links = state.size();
+    std::vector<double> linkLengths = getLinkLengths();
 
-    std::vector<double> link_lengths{0,0.5,1,0.5};
+    std::vector<double> link_lengths = linkLengths;
     std::vector<Eigen::Vector2d> joint_positions;
     std::cout<<"STATE IS"<<state<<std::endl;
     std::vector<Eigen::Matrix3d> tx_matrices;
