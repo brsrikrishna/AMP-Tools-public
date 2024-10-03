@@ -11,8 +11,9 @@ using namespace amp;
 
 int main(int argc, char** argv) {
     /* Include this line to have different randomized environments every time you run your code (NOTE: this has no affect on grade()) */
-    amp::RNG::seed(amp::RNG::randiUnbounded());
-
+    //amp::RNG::seed(amp::RNG::randiUnbounded());
+    Problem2D problem = HW5::getWorkspace1();
+    problem.obstacles.at(0).print();
     // Test your gradient descent algorithm on a random problem.
     MyGDAlgorithm algo(1.0, 1.0, 1.0, 1.0);
     amp::Path2D path;

@@ -17,6 +17,9 @@ class MyGDAlgorithm : public amp::GDAlgorithm {
 
 		// Override this method to solve a given problem.
 		virtual amp::Path2D plan(const amp::Problem2D& problem) override;
+		
+		double distance(Eigen::Vector2d position1,Eigen::Vector2d position2);
+		
 	private:
 		double d_star, zetta, Q_star, eta;
 		// Add additional member variables here...
