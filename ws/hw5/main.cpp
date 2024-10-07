@@ -15,17 +15,17 @@ int main(int argc, char** argv) {
     Problem2D problem = HW5::getWorkspace1();
     problem.obstacles.at(0).print();
     // Test your gradient descent algorithm on a random problem.
-    MyGDAlgorithm algo(1.0, 1.0, 1.0, 1.0);
+    MyGDAlgorithm algo(1.0, 1.0, 1.5, 0.25);
     amp::Path2D path;
     amp::Problem2D prob;
     bool success = HW5::generateAndCheck(algo, path, prob);
     Visualizer::makeFigure(prob, path);
-
+    Visualizer::showFigures();
     // Visualize your potential function
     amp::Visualizer::makeFigure(MyPotentialFunction{}, prob.x_min, prob.x_max, prob.y_min, prob.y_max, 20);
-    Visualizer::showFigures();
+    //Visualizer::showFigures();
     
     // Arguments following argv correspond to the constructor arguments of MyGDAlgorithm:
-    HW5::grade<MyGDAlgorithm>("nonhuman.biologic@myspace.edu", argc, argv, 1.0, 1.0, 1.0, 1.0);
+    HW5::grade<MyGDAlgorithm>("srikrishna.bangaloreraghu@colorado.edu", argc, argv, 1.0, 1.0, 1.5, 0.25);
     return 0;
 }

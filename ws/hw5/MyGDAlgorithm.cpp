@@ -8,11 +8,13 @@ amp::Path2D MyGDAlgorithm::plan(const amp::Problem2D& problem) {
     Eigen::Vector2d current_state = problem.q_init;
     double distance_to_goal = distance(current_state,problem.q_goal);
     Eigen::Vector2d del_U_attractive, del_U_repulsive(0,0);
-    
-    while(distance_to_goal > 1)
+    int count = 0;
+    while(distance_to_goal > 1 && count < 100)
     {
+        count++;
         if (distance_to_goal > d_star)
         {
+            del_U_repulsive = Eigen::Vector2d(0,0);
             double shortest_distance = 100000;
             Eigen::Vector2d nearest_vertex(0,0);
             del_U_attractive = zetta*(current_state-problem.q_goal);
@@ -29,22 +31,24 @@ amp::Path2D MyGDAlgorithm::plan(const amp::Problem2D& problem) {
                     }    
                 
                 }
+                if(shortest_distance < Q_star)
+                {
+                    std::cout<<"CLOSE TO OBSTACLE!!!"<<nearest_vertex<<std::endl;
+                    del_U_repulsive = del_U_repulsive + 1*(eta*((1/Q_star)-(1/shortest_distance))*(1/(shortest_distance*shortest_distance))*(current_state-nearest_vertex)); 
+                    std::cout<<"FINALLY"<<del_U_repulsive<<std::endl;
+                }
+        }
                 
             }
-            if(shortest_distance < Q_star)
-            {
-                std::cout<<"CLOSE TO OBSTACLE!!!"<<nearest_vertex<<std::endl;
-                del_U_repulsive = del_U_repulsive + (eta*((1/Q_star)-(1/shortest_distance))*(1/shortest_distance*shortest_distance)*(current_state-nearest_vertex)); 
-                std::cout<<"??????????????????"<<(1/Q_star)<<"AND"<<(1/shortest_distance)<<"AND"<<(1/(shortest_distance*shortest_distance))<<"FINALLY"<<del_U_repulsive<<std::endl;
-            }
-        }
+            
         else
         {
-            del_U_attractive = (d_star/distance(current_state,problem.q_goal))*zetta*(current_state-problem.q_goal);
+            del_U_repulsive = Eigen::Vector2d(0,0);
+            double shortest_distance = 100000;
+            Eigen::Vector2d nearest_vertex(0,0);
+            del_U_attractive = zetta*(current_state-problem.q_goal);
             for(int i=0; i < obs.size();i++)
-            {
-                double shortest_distance = 100000;
-                Eigen::Vector2d nearest_vertex(0,0);
+            {   
                 std::vector<Eigen::Vector2d> current_vertices = obs[i].verticesCCW();
                 for(int i = 0; i<current_vertices.size();i++)
                 {
@@ -58,14 +62,15 @@ amp::Path2D MyGDAlgorithm::plan(const amp::Problem2D& problem) {
                 }
                 if(shortest_distance < Q_star)
                 {
-                    std::cout<<"CLOSE TO OBSTACLE!!!"<<std::endl;
-                    del_U_repulsive = del_U_repulsive + (eta*((1/Q_star)-(1/shortest_distance))*(1/shortest_distance*shortest_distance)*(current_state-nearest_vertex)); 
-                    std::cout<<"??????????????????"<<del_U_repulsive<<std::endl;
+                    std::cout<<"CLOSE TO OBSTACLE!!!"<<nearest_vertex<<std::endl;
+                    del_U_repulsive = del_U_repulsive + 1*(eta*((1/Q_star)-(1/shortest_distance))*(1/(shortest_distance*shortest_distance))*(current_state-nearest_vertex)); 
+                    std::cout<<"FINALLY"<<del_U_repulsive<<std::endl;
                 }
             }
         }
         std::cout<<"THE ATTRATIVE AND REPULSIVE ARE:"<< del_U_attractive<< "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"<<del_U_repulsive<<std::endl;
-        current_state = current_state-(0.1*(del_U_attractive+1*del_U_repulsive));
+        current_state = current_state-(0.05*(del_U_attractive+1*del_U_repulsive));
+        std::cout<<"THE CURRENT STATE IS"<<current_state<<std::endl;
         distance_to_goal = distance(current_state,problem.q_goal);
         path.waypoints.push_back(current_state);
     }
