@@ -9,4 +9,7 @@
 class MyAStarAlgo : public amp::AStar {
     public:
         virtual GraphSearchResult search(const amp::ShortestPathProblem& problem, const amp::SearchHeuristic& heuristic) override;
+        std:list<amp::Node> MyAStarAlgo::SortPriorityQueue(std:list<amp::Node> priority_queue);
 };
+
+

@@ -43,6 +43,7 @@ int main(int argc, char** argv) {
 
     // For Exercise 3, you will need to implement the A* algorithm.
     ShortestPathProblem problem = HW6::getEx3SPP();
+    problem.graph->print();
     LookupSearchHeuristic heuristic = HW6::getEx3Heuristic();
     MyAStarAlgo algo;
     MyAStarAlgo::GraphSearchResult result = algo.search(problem, heuristic);
